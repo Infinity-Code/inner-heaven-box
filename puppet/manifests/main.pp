@@ -1,5 +1,4 @@
 include apt
-$ar_databases = ['heaven_dev']
 $as_vagrant = 'sudo -u vagrant'
 $home = '/home/vagrant'
 
@@ -23,7 +22,7 @@ user { vagrant:
   shell  => "/usr/bin/zsh",
 }
 exec { 'create_profile':
-  command => "$as_vagrant touch /home/vagrant/.zshrc",
+  command => "$as_vagrant echo 'export DATABASE_URL=\"postgresql://heaven:heaven@localhost/heaven?pool=5&reaping_frequency=30\"' > /home/vagrant/.zshrc",
   unless  => "test -s /home/vagrant/.zshrc"
 }
 class apt_get_update {
@@ -103,7 +102,7 @@ class install_postgres {
     ipv4acls                   => ['local all all md5'],
   }
   
-  postgresql::server::db { 'music':
+  postgresql::server::db { 'heaven':
     user     => 'heaven',
     password => postgresql_password('heaven', 'heaven'),
     encoding => 'UTF8',
