@@ -128,6 +128,15 @@ class install_ruby {
                   default_use => true,
   }
   rvm::system_user {vagrant:}
+
+  rvm_gem {
+    'bundler':
+      name         => 'bundler',
+      ruby_version => 'ruby-2.1.2',
+      ensure       => latest,
+      require      => Rvm_system_ruby['ruby-2.1.2'];
+  }
+
 }
 class {'install_ruby':
   stage => ruby
