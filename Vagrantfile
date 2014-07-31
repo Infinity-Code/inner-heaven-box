@@ -22,7 +22,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.provider "virtualbox" do |vb|
        vb.customize ["modifyvm", :id, "--memory", "1024"]
   end
-  config.vm.synced_folder "shared", '/tmp/shared'
   
   config.vm.provision "puppet" do |puppet|
     puppet.manifests_path = "puppet/manifests"
