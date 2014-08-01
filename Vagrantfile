@@ -11,12 +11,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     config.cache.auto_detect = true
   end
 
-  config.vm.box_version = '0.1.3'
-  
   config.vm.provider "virtualbox" do |vb|
        vb.customize ["modifyvm", :id, "--memory", "1024"]
   end
-  config.vm.network :forwarded_port, guest: 1247, host: 1247
   config.vm.provision "puppet" do |puppet|
     puppet.manifests_path = "puppet/manifests"
     puppet.module_path    = 'puppet/modules'    

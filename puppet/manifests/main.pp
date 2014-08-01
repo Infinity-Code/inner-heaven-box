@@ -122,7 +122,7 @@ class {'install_postgres':}
 class install_ruby {
   class {'rvm':}
   rvm_system_ruby {
-    'ruby-2.1.2':
+    'ruby-2.1.1':
       ensure      => 'present',
                   default_use => true,
   }
@@ -131,9 +131,19 @@ class install_ruby {
   rvm_gem {
     'bundler':
       name         => 'bundler',
-      ruby_version => 'ruby-2.1.2',
+      ruby_version => 'ruby-2.1.1',
       ensure       => latest,
-      require      => Rvm_system_ruby['ruby-2.1.2'];
+      require      => Rvm_system_ruby['ruby-2.1.1'];
+    'github_api':
+      name         => 'github_api',
+      ruby_version => 'ruby-2.1.1',
+      ensure       => '0.11.3',
+      require      => Rvm_system_ruby['ruby-2.1.1'];
+    'jeweler':
+      name         => 'jeweler',
+      ruby_version => 'ruby-2.1.1',
+      ensure       => latest,
+      require      => Rvm_system_ruby['ruby-2.1.1'];
   }
 
 }
