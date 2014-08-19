@@ -39,20 +39,14 @@ class { 'timezone':
 }
 # --- Setup Apt ----------------------------------------------------------------
 class install_backports {
-    apt::source { 'debian_backports':
-        location => 'http://ftp.lt.debian.org/debian',
-        release => 'wheezy-backports',
-        repos => 'main',
-        include_src => false,
-    }
+  apt::ppa { 'ppa:transmissionbt/ppa': }
+  apt::ppa { 'ppa:rwky/redis': }
 }
 class {'install_backports':}
 
 # --- Packages -----------------------------------------------------------------
-# ExecJS runtime.
 package { 'nodejs':
-  require => apt::source['debian_backports'],
-          ensure  => installed
+  ensure  => installed
 }
 package { 'zsh':
   ensure => installed
@@ -90,6 +84,17 @@ package {'libcurl3-gnutls':
 package {'libcurl4-openssl-dev':
   ensure => installed
 }
+package {'python-software-properties':
+  ensure => installed
+}
+Apt::Ppa['ppa:transmissionbt/ppa'] -> 
+package {'transmission-daemon':
+  ensure => installed
+}
+Apt::Ppa['ppa:rwky/redis'] ->
+package{'redis-server':
+  ensure => installed
+}
 # --- PostgreSQL ---------------------------------------------------------------
 class install_postgres {
   class { 'postgresql::globals':
@@ -121,29 +126,22 @@ class {'install_postgres':}
 # --- Ruby ---------------------------------------------------------------------
 class install_ruby {
   class {'rvm':}
-  rvm_system_ruby {
-    'ruby-2.1.1':
-      ensure      => 'present',
-                  default_use => true,
+  class { 'java': } ->
+  class { 'ant': } ->
+  class { 'maven::maven': } ->
+  rvm_system_ruby { 'jruby-1.7.13':
+    ensure      => 'present',
+    default_use => true;
   }
+
   rvm::system_user {vagrant:}
 
   rvm_gem {
     'bundler':
       name         => 'bundler',
-      ruby_version => 'ruby-2.1.1',
+      ruby_version => 'jruby-1.7.13',
       ensure       => latest,
-      require      => Rvm_system_ruby['ruby-2.1.1'];
-    'github_api':
-      name         => 'github_api',
-      ruby_version => 'ruby-2.1.1',
-      ensure       => '0.11.3',
-      require      => Rvm_system_ruby['ruby-2.1.1'];
-    'jeweler':
-      name         => 'jeweler',
-      ruby_version => 'ruby-2.1.1',
-      ensure       => latest,
-      require      => Rvm_system_ruby['ruby-2.1.1'];
+      require      => Rvm_system_ruby['jruby-1.7.13'];
   }
 
 }

@@ -22,3 +22,21 @@
 [submodule "puppet/modules/postgresql"]
 	path = puppet/modules/postgresql
 	url = https://github.com/puppetlabs/puppetlabs-postgresql.git
+[submodule "puppet/modules/transmission"]
+	path = puppet/modules/transmission
+	url = https://github.com/olbat/puppet-transmission_daemon.git
+[submodule "puppet/modules/java"]
+	path = puppet/modules/java
+	url = https://github.com/puppetlabs/puppetlabs-java.git
+[submodule "puppet/modules/ant"]
+	path = puppet/modules/ant
+	url = https://github.com/maestrodev/puppet-ant.git
+[submodule "puppet/modules/maven"]
+	path = puppet/modules/maven
+	url = https://github.com/maestrodev/puppet-maven.git
+[submodule "puppet/modules/wget"]
+	path = puppet/modules/wget
+	url = https://github.com/maestrodev/puppet-wget.git
+[submodule "puppet/modules/redis"]
+	path = puppet/modules/redis
+	url = https://github.com/thomasvandoren/puppet-redis.git

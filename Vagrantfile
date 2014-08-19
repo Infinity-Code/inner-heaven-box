@@ -5,7 +5,7 @@
 VAGRANTFILE_API_VERSION = "2"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
-  config.vm.box = "puppetlabs/debian-7.4-64-puppet"
+  config.vm.box = "puppetlabs/ubuntu-12.04-64-puppet"
   if Vagrant.has_plugin?("vagrant-cachier")
     config.cache.scope = :machine
     config.cache.auto_detect = true
