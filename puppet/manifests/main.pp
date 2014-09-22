@@ -15,8 +15,6 @@ Stage['preinstall'] -> Stage['setup-apt'] -> Stage['main'] -> Stage['ruby']
 
 # --- Preinstall Stage ---------------------------------------------------------
 
-include locales
-
 user { vagrant:
   ensure => present,
   shell  => "/usr/bin/zsh",
@@ -124,27 +122,4 @@ class install_postgres {
 class {'install_postgres':}
 
 # --- Ruby ---------------------------------------------------------------------
-class install_ruby {
-  class {'rvm':}
-  class { 'java': } ->
-  class { 'ant': } ->
-  class { 'maven::maven': } ->
-  rvm_system_ruby { 'jruby-1.7.13':
-    ensure      => 'present',
-    default_use => true;
-  }
-
-  rvm::system_user {vagrant:}
-
-  rvm_gem {
-    'bundler':
-      name         => 'bundler',
-      ruby_version => 'jruby-1.7.13',
-      ensure       => latest,
-      require      => Rvm_system_ruby['jruby-1.7.13'];
-  }
-
-}
-class {'install_ruby':
-  stage => ruby
-}
+class {'rvm':}

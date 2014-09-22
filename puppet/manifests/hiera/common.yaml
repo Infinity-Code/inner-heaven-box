@@ -1,0 +1,9 @@
+rvm::system_rubies:
+  'rbx':
+    default_use: true,
+    build_opts: 
+      - '--1.9'
+  '2.1.2': {}
+
+rvm::system_users:
+  - vagrant
