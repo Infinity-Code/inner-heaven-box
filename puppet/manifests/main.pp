@@ -15,14 +15,6 @@ Stage['preinstall'] -> Stage['setup-apt'] -> Stage['main'] -> Stage['ruby']
 
 # --- Preinstall Stage ---------------------------------------------------------
 
-user { vagrant:
-  ensure => present,
-  shell  => "/usr/bin/zsh",
-}
-exec { 'create_profile':
-  command => "$as_vagrant echo 'export DATABASE_URL=\"postgresql://heaven:heaven@localhost/heaven?pool=5&reaping_frequency=30\"' > /home/vagrant/.zshrc",
-  unless  => "test -s /home/vagrant/.zshrc"
-}
 class apt_get_update {
   exec { 'apt-get -y update':
     unless => "test -e ${home}/.rvm"
@@ -35,6 +27,12 @@ class { 'timezone':
   timezone => 'America/Los_Angeles',
            stage => preinstall
 }
+
+class { 'locales':
+  default_value  => 'en_US.UTF-8',
+  stage => preinstall
+}
+
 # --- Setup Apt ----------------------------------------------------------------
 class install_backports {
   apt::ppa { 'ppa:transmissionbt/ppa': }
@@ -43,11 +41,12 @@ class install_backports {
 class {'install_backports':}
 
 # --- Packages -----------------------------------------------------------------
-package { 'nodejs':
+package { 'llvm':
   ensure  => installed
 }
-package { 'zsh':
-  ensure => installed
+
+package { 'nodejs':
+  ensure  => installed
 }
 
 package { 'curl':
@@ -85,7 +84,7 @@ package {'libcurl4-openssl-dev':
 package {'python-software-properties':
   ensure => installed
 }
-Apt::Ppa['ppa:transmissionbt/ppa'] -> 
+Apt::Ppa['ppa:transmissionbt/ppa'] ->
 package {'transmission-daemon':
   ensure => installed
 }
@@ -104,7 +103,6 @@ class install_postgres {
     ip_mask_allow_all_users    => '0.0.0.0/0',
     ipv4acls                   => ['local all all md5'],
   }
-  
   postgresql::server::db { 'heaven':
     user     => 'heaven',
     password => postgresql_password('heaven', 'heaven'),
@@ -122,4 +120,6 @@ class install_postgres {
 class {'install_postgres':}
 
 # --- Ruby ---------------------------------------------------------------------
-class {'rvm':}
+class {'rvm':
+  version => '1.25.32'
+}

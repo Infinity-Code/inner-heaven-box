@@ -1,9 +1,6 @@
 [submodule "puppet/modules/apt"]
 	path = puppet/modules/apt
 	url = https://github.com/puppetlabs/puppetlabs-apt.git
-[submodule "puppet/modules/locales"]
-	path = puppet/modules/locales
-	url = https://github.com/puppetmodules/puppet-module-locales
 [submodule "puppet/modules/puppet-rvm"]
 	path = puppet/modules/puppet-rvm
 	url = https://github.com/maestrodev/puppet-rvm.git
@@ -40,3 +37,6 @@
 [submodule "puppet/modules/redis"]
 	path = puppet/modules/redis
 	url = https://github.com/thomasvandoren/puppet-redis.git
+[submodule "puppet/modules/locales"]
+	path = puppet/modules/locales
+	url = https://github.com/attachmentgenie/attachmentgenie-locales.git
