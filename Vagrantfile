@@ -1,7 +1,7 @@
 # -*- mode: ruby; -*-
 Vagrant.configure("2") do |config|
   config.vm.guest = :freebsd
-  config.vm.box = "infinitycode/freebsd-10.1-zfs-pure"
+  config.vm.box = "infinitycode/freebsd-10.1-zfs-salted"
   config.vm.network "private_network", ip: "10.0.1.10"
 
   # Use NFS as a shared folder
@@ -18,8 +18,9 @@ Vagrant.configure("2") do |config|
 
   config.vm.provision :salt do |salt|
 
-    salt.minion_config = "salt/minion"
-    salt.run_highstate = true
-
+    salt.minion_config  = "salt/minion"
+    salt.run_highstate  = true
+    salt.colorize       = true
+    salt.log_level      = 'debug'
   end
 end

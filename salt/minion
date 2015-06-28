@@ -1,6 +1,9 @@
 master: localhost
 file_client: local
 
+state_verbose: True
+dns_check: False
+
 file_roots:
   base:
     - /srv/salt
